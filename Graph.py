@@ -19,11 +19,14 @@ def cascade(A, i):
 
     status = False
     node = []
+    total = 0
     a = []
 
     while not status:
 
-        a += sorted(f(A, i))
+        a += f(A, i)
+        a = list(set(a))
+        a = sorted(a)
         j = 0
         while j < len(a) and 'C' not in a[j]:
             j += 1
@@ -32,14 +35,16 @@ def cascade(A, i):
             status = True
         else:
             i = int(re.sub(r'[^0-9]', '', a[j]))
+            temp = a[:j]
+            total += sum(list(map(int, temp)))
+            a = a[j:]
             node.append(i)
-            a.pop(j)
+            a.pop(0)
 
-    return sum(list(map(int, a))), sorted(list(set(node)))
+    return total, sorted(list(set(node)))
 
 
 if __name__ == '__main__':
 
     A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
-
     print(cascade(A, 1))
