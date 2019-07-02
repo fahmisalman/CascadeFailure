@@ -1,3 +1,4 @@
+from RandomNet import generate_random_network
 import numpy as np
 import re
 
@@ -38,13 +39,19 @@ def cascade(A, i):
             temp = a[:j]
             total += sum(list(map(int, temp)))
             a = a[j:]
+            while len(a) > 0 and i in node:
+                a.pop(0)
+                if len(a) > 0:
+                    i = int(re.sub(r'[^0-9]', '', a[0]))
+                else:
+                    status = True
             node.append(i)
-            a.pop(0)
 
     return total, sorted(list(set(node)))
 
 
 if __name__ == '__main__':
 
-    A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
+    # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
+    A = generate_random_network(p=0.6, n=10)
     print(cascade(A, 1))
