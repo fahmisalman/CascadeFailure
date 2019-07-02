@@ -1,4 +1,4 @@
-from RandomNet import generate_random_network
+from RandomNet import RandomNetwork
 import numpy as np
 import re
 
@@ -53,5 +53,8 @@ def cascade(A, i):
 if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
-    A = generate_random_network(p=0.6, n=10)
+    rn = RandomNetwork()
+    # A = rn.generate_random_network(p=0.6, n=10, save=True)
+    A = rn.loadcsv('Saved matrix/Graph_p=0.6_N=10.csv')
+    rn.show_graph()
     print(cascade(A, 1))
