@@ -1,8 +1,7 @@
-# import the relevant libraries
-import networkx as nx
 import matplotlib.pyplot as plt
-import random
+import networkx as nx
 import numpy as np
+import random
 
 
 class RandomNetwork(object):

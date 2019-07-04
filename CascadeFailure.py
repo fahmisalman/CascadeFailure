@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
     rn = RandomNetwork()
-    # A = rn.generate_random_network(p=0.6, n=10, save=True)
-    A = rn.loadcsv('Saved matrix/Graph_p=0.6_N=10.csv')
+    # A = rn.generate_random_network(p=0.3, n=10, save=True)
+    A = rn.loadcsv('Saved matrix/Graph_p=0.3_N=10.csv')
     rn.show_graph()
-    print(cascade(A, 1))
+    print(cascade(A, 4))
