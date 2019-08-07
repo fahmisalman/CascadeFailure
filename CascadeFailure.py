@@ -1,4 +1,5 @@
 from RandomNet import RandomNetwork
+from ExponentialNet import ExponentialNetwork
 import numpy as np
 import re
 
@@ -53,8 +54,10 @@ def cascade(A, i):
 if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
-    rn = RandomNetwork()
-    A = rn.generate_random_network(p=0.3, n=10000, save=True)
+    # rn = RandomNetwork()
+    rn = ExponentialNetwork()
+    A = rn.generate_random_network()
+    # print(A)
     # A = rn.loadcsv('Saved matrix/Graph_p=0.3_N=10.csv')
-    rn.show_graph()
-    print(cascade(A, 4))
+    # rn.show_graph()
+    print(cascade(A, 1))
