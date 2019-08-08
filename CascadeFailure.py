@@ -1,5 +1,8 @@
 from RandomNet import RandomNetwork
 from ExponentialNet import ExponentialNetwork
+from ScaleFreeNet import ScaleFreeNetwork
+import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 import re
 
@@ -48,16 +51,43 @@ def cascade(A, i):
                     status = True
             node.append(i)
 
-    return total, sorted(list(set(node)))
+    list_node = sorted(list(set(node)))
+
+    return len(list_node), list_node
+
+
+def multi_cascade(A):
+
+    failure_list = [1, 2, 3]
+    cascade_list = []
+    for i in range(len(failure_list)):
+        n, list_node = cascade(A, failure_list[i])
+        A[failure_list[i] - 1] = 0
+        for j in range(len(list_node)):
+            A[list_node[j] - 1] = 0
+        cascade_list.append(failure_list[i])
+        cascade_list += list_node
+        cascade_list = list(set(cascade_list))
+        print(list_node)
+
+    return A, cascade_list
 
 
 if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
     # rn = RandomNetwork()
-    rn = ExponentialNetwork()
-    A = rn.generate_random_network()
-    # print(A)
+    # rn = ExponentialNetwork()
+    # A = rn.generate_random_network(p=0.7, n=3, m=20, d=2)
     # A = rn.loadcsv('Saved matrix/Graph_p=0.3_N=10.csv')
     # rn.show_graph()
-    print(cascade(A, 1))
+    # print(cascade(A, 1))
+    rn = ScaleFreeNetwork()
+    A = rn.generate_exponential_network()
+
+    A, cascade_list = multi_cascade(A)
+    print(cascade_list)
+    G = nx.DiGraph(A)
+    D = nx.convert_node_labels_to_integers(G, first_label=1)
+    nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
+    plt.show()
