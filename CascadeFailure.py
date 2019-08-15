@@ -1,6 +1,4 @@
-from RandomNet import RandomNetwork
-from ExponentialNet import ExponentialNetwork
-from ScaleFreeNet import ScaleFreeNetwork
+from Network import ScaleFreeNetwork, RandomNetwork, ExponentialNetwork
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -76,17 +74,22 @@ def multi_cascade(A):
 if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
+
+    # Generate Scale Free Network
     # rn = RandomNetwork()
-    # rn = ExponentialNetwork()
-    # A = rn.generate_random_network(p=0.7, n=3, m=20, d=2)
-    # A = rn.loadcsv('Saved matrix/Graph_p=0.3_N=10.csv')
-    # rn.show_graph()
-    # print(cascade(A, 1))
-    rn = ScaleFreeNetwork()
-    A = rn.generate_exponential_network()
+    # A = rn.generate_random_network()
+
+    # Generate Scale Free Network
+    # en = ExponentialNetwork()
+    # A = en.generate_exponential_network()
+
+    # Generate Scale Free Network
+    sf = ScaleFreeNetwork()
+    A = sf.generate_scale_free_network()
 
     A, cascade_list = multi_cascade(A)
     print(cascade_list)
+
     G = nx.DiGraph(A)
     D = nx.convert_node_labels_to_integers(G, first_label=1)
     nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
