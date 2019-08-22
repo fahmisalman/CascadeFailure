@@ -172,15 +172,15 @@ class ExponentialNetwork(object):
         for x in range(0, n):
             self.g.add_node(x)
 
-        while n <= m:
+        while n < m:
 
             for i in range(d):
-                temp_node1 = random.randint(0, n)
-                temp_node2 = random.randint(0, n)
-                if temp_node1 > temp_node2:
-                    temp_node1, temp_node2 = temp_node2, temp_node1
-                if temp_node1 != temp_node2 and self.g.has_edge(temp_node1, temp_node2) == False:
-                    self.g.add_edge(temp_node1, temp_node2)
+                temp_node = random.randint(0, n)
+                # if temp_node1 > temp_node2:
+                #     temp_node1, temp_node2 = temp_node2, temp_node1
+                if temp_node != n and not self.g.has_edge(temp_node, n):
+                    self.g.add_edge(temp_node, n)
+
             n += 1
 
         self.A = nx.to_numpy_matrix(self.g)
