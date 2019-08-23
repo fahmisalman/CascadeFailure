@@ -152,13 +152,13 @@ class ExponentialNetwork(object):
         nx.draw(self.D, pos=nx.spring_layout(self.D), with_labels=True, nodelist=self.D.node)
         plt.show()
 
-    def generate_exponential_network(self, p=1, n=5, d=2, m=10, save=False, filename='', show=True):
+    def generate_exponential_network(self, p=1, d=2, m=5, n=10, save=False, filename='', show=True):
         """
 
-        :param p: probability p
-        :param n: number of nodes
+        :param p: probability p, default 1
+        :param m: number of nodes
         :param d:
-        :param m:
+        :param n:
         :param save:
         :param filename:
         :param show:
@@ -169,19 +169,17 @@ class ExponentialNetwork(object):
         self.g = nx.DiGraph()
 
         # Initialize nodes
-        for x in range(0, n):
+        for x in range(0, m):
             self.g.add_node(x)
 
-        while n < m:
+        while m < n:
 
             for i in range(d):
-                temp_node = random.randint(0, n)
-                # if temp_node1 > temp_node2:
-                #     temp_node1, temp_node2 = temp_node2, temp_node1
-                if temp_node != n and not self.g.has_edge(temp_node, n):
-                    self.g.add_edge(temp_node, n)
+                temp_node = random.randint(0, m)
+                if temp_node != m and not self.g.has_edge(temp_node, m):
+                    self.g.add_edge(temp_node, m)
 
-            n += 1
+            m += 1
 
         self.A = nx.to_numpy_matrix(self.g)
         self.A = np.array(self.A)
@@ -192,7 +190,7 @@ class ExponentialNetwork(object):
         # Save the network, if save parameter is set True
         if save:
             if filename == '':
-                np.savetxt("Saved matrix/Graph_p={}_N={}.csv".format(p, n), self.A, delimiter=",")
+                np.savetxt("Saved matrix/Graph_p={}_N={}.csv".format(p, m), self.A, delimiter=",")
             else:
                 np.savetxt("Saved matrix/{}".format(filename), self.A, delimiter=",")
 
