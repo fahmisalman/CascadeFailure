@@ -54,21 +54,21 @@ def cascade(A, i):
     return len(list_node), list_node
 
 
-def multi_cascade(A, failure_list):
+def multi_cascade(A, n_failure):
 
-    # failure_list = [1, 2, 3]
+    result = []
     cascade_list = []
-    for i in range(len(failure_list)):
-        n, list_node = cascade(A, failure_list[i])
-        A[failure_list[i] - 1] = 0
+    for i in range(n_failure):
+        failure_node = np.random.randint(1, len(A))
+        n, list_node = cascade(A, failure_node)
+        A[failure_node - 1] = 0
         for j in range(len(list_node)):
-            A[failure_list[i] - 1, list_node[j] - 1] = 0
-        cascade_list.append(failure_list[i])
+            A[failure_node - 1, list_node[j] - 1] = 0
+        cascade_list.append(failure_node)
         cascade_list += list_node
         cascade_list = list(set(cascade_list))
-        print(failure_list[i], ':', list_node)
-
-    return A, cascade_list
+        result.append([failure_node, list_node])
+    return A, cascade_list, result
 
 
 if __name__ == '__main__':
@@ -87,8 +87,16 @@ if __name__ == '__main__':
     # sf = ScaleFreeNetwork()
     # A = sf.generate_scale_free_network()
 
-    A, cascade_list = multi_cascade(A, [1, 2, 3])
-    # print(cascade_list)
+    A, cascade_list, result = multi_cascade(A, 2)
+    temp = {}
+
+    for i in range(len(result)):
+        temp['Node ' + str(result[i][0])] = result[i][1]
+
+    result = {'Result': temp,
+              'Total node failure': len(cascade_list),
+              'List node failure': cascade_list}
+    print(result)
 
     G = nx.DiGraph(A)
     D = nx.convert_node_labels_to_integers(G, first_label=1)
