@@ -15,7 +15,7 @@ class RandomNetwork(object):
         """
         produces a random value between 0.0 and 1.0
 
-        :return:
+        :return: random value between 0.0 and 1.0
         """
         random_number = random.randint(0, 10)
         f_rand = float(random_number)
