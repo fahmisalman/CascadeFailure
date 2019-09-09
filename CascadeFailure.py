@@ -58,16 +58,23 @@ def multi_cascade(A, n_failure):
 
     result = []
     cascade_list = []
+    temp_node = list(range(1, len(A[0]) + 1))
     for i in range(n_failure):
-        failure_node = np.random.randint(1, len(A))
+        failure_node = temp_node[np.random.randint(1, len(temp_node))]
         n, list_node = cascade(A, failure_node)
         A[failure_node - 1] = 0
+        temp_node.remove(failure_node)
         for j in range(len(list_node)):
-            A[failure_node - 1, list_node[j] - 1] = 0
+            # A[failure_node - 1, list_node[j] - 1] = 0
+            A[:, list_node[j] - 1] = 0
+            A[failure_node - 1, :] = 0
+            if list_node[j] in temp_node:
+                temp_node.remove(list_node[j])
         cascade_list.append(failure_node)
         cascade_list += list_node
         cascade_list = list(set(cascade_list))
         result.append([failure_node, list_node])
+    print(temp_node)
     return A, cascade_list, result
 
 
@@ -75,13 +82,13 @@ if __name__ == '__main__':
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
 
-    # Generate Scale Free Network
+    # Generate Random Network
     # rn = RandomNetwork()
     # A = rn.generate_random_network()
 
-    # Generate Scale Free Network
+    # Generate Exponential Network
     en = ExponentialNetwork()
-    A = en.generate_exponential_network()
+    A = en.generate_exponential_network(show=True)
 
     # Generate Scale Free Network
     # sf = ScaleFreeNetwork()
@@ -100,5 +107,7 @@ if __name__ == '__main__':
 
     G = nx.DiGraph(A)
     D = nx.convert_node_labels_to_integers(G, first_label=1)
+    for i in range(len(cascade_list)):
+        D.remove_node(cascade_list[i])
     nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
     plt.show()
