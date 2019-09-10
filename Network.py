@@ -89,9 +89,9 @@ class RandomNetwork(object):
         # Save the network, if save parameter is set True
         if save:
             if filename == '':
-                np.savetxt("Saved matrix/Graph_p={}_N={}.csv".format(p, n), self.A, delimiter=",")
+                np.savetxt("Saved/Graph_p={}_N={}.csv".format(p, n), self.A, delimiter=",")
             else:
-                np.savetxt("Saved matrix/{}".format(filename), self.A, delimiter=",")
+                np.savetxt("Saved/{}".format(filename), self.A, delimiter=",")
 
         return self.A
 
@@ -128,9 +128,9 @@ class ScaleFreeNetwork(object):
         # Save the network, if save parameter is set True
         if save:
             if filename == '':
-                np.savetxt("Saved matrix/Graph_p={}_N={}.csv".format(p, n), self.A, delimiter=",")
+                np.savetxt("Saved/Graph_p={}_N={}.csv".format(p, n), self.A, delimiter=",")
             else:
-                np.savetxt("Saved matrix/{}".format(filename), self.A, delimiter=",")
+                np.savetxt("Saved/{}".format(filename), self.A, delimiter=",")
 
         return self.A
 
@@ -184,14 +184,14 @@ class ExponentialNetwork(object):
         self.A = nx.to_numpy_matrix(self.g)
         self.A = np.array(self.A)
 
-        if show:
-            self.show_graph()
+        # if show:
+        #     self.show_graph()
 
         # Save the network, if save parameter is set True
         if save:
             if filename == '':
-                np.savetxt("Saved matrix/Graph_p={}_N={}.csv".format(p, m), self.A, delimiter=",")
+                np.savetxt("Saved/Graph_p={}_N={}.csv".format(p, m), self.A, delimiter=",")
             else:
-                np.savetxt("Saved matrix/{}".format(filename), self.A, delimiter=",")
+                np.savetxt("Saved/{}".format(filename), self.A, delimiter=",")
 
         return self.A

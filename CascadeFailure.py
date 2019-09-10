@@ -2,6 +2,7 @@ from Network import ScaleFreeNetwork, RandomNetwork, ExponentialNetwork
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
+import json
 import sys
 import re
 
@@ -89,40 +90,42 @@ if __name__ == '__main__':
     n = 10
     save = False
     filename = ''
-    show = True
+    show = False
     n_failure = 1
 
     for text in sys.argv:
-        if '-p' in text:
+        if '-p=' in text:
             p = float(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-d' in text:
+        if '-d=' in text:
             d = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-m' in text:
+        if '-m=' in text:
             m = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-n' in text:
+        if '-n=' in text:
             n = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-f' in text:
+        if '-f=' in text:
             n_failure = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-save' in text:
+        if '-save=' in text:
             save = text[text.index('=') + 1:]
 
     for text in sys.argv:
-        if '-filename' in text:
+        if '-filename=' in text:
             filename = text[text.index('=') + 1:]
 
     for text in sys.argv:
-        if '-show' in text:
+        if '-show=' in text:
             show = text[text.index('=') + 1:]
+
+    print(p, d, m, n, show)
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
 
@@ -142,16 +145,22 @@ if __name__ == '__main__':
     temp = {}
 
     for i in range(len(result)):
-        temp['Node ' + str(result[i][0])] = result[i][1]
+        temp[result[i][0]] = result[i][1]
 
     result = {'Result': temp,
               'Total node failure': len(cascade_list),
               'List node failure': cascade_list}
     print(result)
 
-    G = nx.DiGraph(A)
-    D = nx.convert_node_labels_to_integers(G, first_label=1)
-    for i in range(len(cascade_list)):
-        D.remove_node(cascade_list[i])
-    nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
-    plt.show()
+    if filename == '':
+        filename = 'network_p={}_d={}_m={}_n={}'.format(p, d, m, n)
+    with open('Saved/{}.json'.format(filename), 'w') as outfile:
+        json.dump(result, outfile)
+
+    # if show:
+    #     G = nx.DiGraph(A)
+    #     D = nx.convert_node_labels_to_integers(G, first_label=1)
+    #     for i in range(len(cascade_list)):
+    #         D.remove_node(cascade_list[i])
+    #     nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
+    #     plt.show()
