@@ -56,33 +56,29 @@ def cascade(A, i):
     return len(list_node), list_node
 
 
-def multi_cascade(A, n_failure):
+def multi_cascade(A, n_fail):
 
-    result = []
-    cascade_list = []
+    res = []
+    c_list = []
     temp_node = list(range(1, len(A[0]) + 1))
-    for i in range(n_failure):
+    for ii in range(n_fail):
         failure_node = temp_node[np.random.randint(1, len(temp_node))]
         n, list_node = cascade(A, failure_node)
         A[failure_node - 1] = 0
         temp_node.remove(failure_node)
-        for j in range(len(list_node)):
-            # A[failure_node - 1, list_node[j] - 1] = 0
-            A[:, list_node[j] - 1] = 0
+        for jj in range(len(list_node)):
+            A[:, list_node[jj] - 1] = 0
             A[failure_node - 1, :] = 0
-            if list_node[j] in temp_node:
-                temp_node.remove(list_node[j])
-        cascade_list.append(failure_node)
-        cascade_list += list_node
-        cascade_list = list(set(cascade_list))
-        result.append([failure_node, list_node])
-    print(temp_node)
-    return A, cascade_list, result
+            if list_node[jj] in temp_node:
+                temp_node.remove(list_node[jj])
+        c_list.append(failure_node)
+        c_list += list_node
+        c_list = list(set(c_list))
+        res.append([failure_node, list_node])
+    return A, c_list, res
 
 
 if __name__ == '__main__':
-
-    print(sys.argv)
 
     p = 1
     d = 2
@@ -125,8 +121,6 @@ if __name__ == '__main__':
         if '-show=' in text:
             show = text[text.index('=') + 1:]
 
-    print(p, d, m, n, show)
-
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
 
     # Generate Random Network
@@ -149,11 +143,17 @@ if __name__ == '__main__':
 
     result = {'Result': temp,
               'Total node failure': len(cascade_list),
-              'List node failure': cascade_list}
+              'List node failure': cascade_list,
+              'p': p,
+              'd': d,
+              'm': m,
+              'n': n,
+              'failure': n_failure
+              }
     print(result)
 
     if filename == '':
-        filename = 'network_p={}_d={}_m={}_n={}'.format(p, d, m, n)
+        filename = 'network_p={}_d={}_m={}_n={}_f={}'.format(p, d, m, n, n_failure)
     with open('Saved/{}.json'.format(filename), 'w') as outfile:
         json.dump(result, outfile)
 
