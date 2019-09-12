@@ -1,7 +1,5 @@
 # CascadeFailure
 
-Spoken Language Identification is a way to detect what language is used in a conversation. In this experiment, a system was made to detect whether the language used was English, Spanish or German.
-
 ## Requirements
 
 - python 3.6
