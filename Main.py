@@ -110,16 +110,16 @@ if __name__ == '__main__':
             n_failure = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
-        if '-save=' in text:
-            save = text[text.index('=') + 1:]
-
-    for text in sys.argv:
         if '-filename=' in text:
             filename = text[text.index('=') + 1:]
 
-    for text in sys.argv:
-        if '-show=' in text:
-            show = text[text.index('=') + 1:]
+    # for text in sys.argv:
+    #     if '-save=' in text:
+    #         save = text[text.index('=') + 1:]
+
+    # for text in sys.argv:
+    #     if '-show=' in text:
+    #         show = text[text.index('=') + 1:]
 
     # A = np.array([[0, 1, 0, 0, 1], [0, 0, 1, 1, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]])
 
@@ -136,14 +136,20 @@ if __name__ == '__main__':
     # A = sf.generate_scale_free_network()
 
     A, cascade_list, result = multi_cascade(A, n_failure)
-    temp = {}
+    temp1 = {}
+    temp2 = {}
+    temp3 = len(cascade_list) - n_failure
 
     for i in range(len(result)):
-        temp[result[i][0]] = result[i][1]
+        temp1[result[i][0]] = result[i][1]
 
-    result = {'Result': temp,
+    for i in range(len(result)):
+        temp2[result[i][0]] = len(result[i][1])
+
+    result = {'List node failure': temp1,
+              'Number of node failure': temp2,
+              'Cascade failure': temp3,
               'Total node failure': len(cascade_list),
-              'List node failure': cascade_list,
               'p': p,
               'd': d,
               'm': m,
