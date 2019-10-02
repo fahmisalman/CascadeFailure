@@ -184,8 +184,8 @@ class ExponentialNetwork(object):
         self.A = nx.to_numpy_matrix(self.g)
         self.A = np.array(self.A)
 
-        # if show:
-        #     self.show_graph()
+        if show:
+            self.show_graph()
 
         # Save the network, if save parameter is set True
         if save:

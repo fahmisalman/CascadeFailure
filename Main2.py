@@ -56,14 +56,13 @@ def cascade(A, i):
     return len(list_node), list_node
 
 
-def multi_cascade(A, n_fail):
+def multi_cascade(A, n_fail, failure_node=1):
 
     res = []
     c_list = []
     temp_node = list(range(1, len(A[0]) + 1))
     for ii in range(n_fail):
         # failure_node = temp_node[np.random.randint(1, len(temp_node))]
-        failure_node = 1
         n, list_node = cascade(A, failure_node)
         A[failure_node - 1] = 0
         temp_node.remove(failure_node)
@@ -84,6 +83,7 @@ if __name__ == '__main__':
     p = 1
     d = 2
     m = 1
+    c = 1
     n = 50
     save = False
     filename = ''
@@ -107,6 +107,10 @@ if __name__ == '__main__':
             n = int(text[text.index('=') + 1:])
 
     for text in sys.argv:
+        if '-c=' in text:
+            c = int(text[text.index('=') + 1:])
+
+    for text in sys.argv:
         if '-f=' in text:
             n_failure = int(text[text.index('=') + 1:])
 
@@ -128,50 +132,49 @@ if __name__ == '__main__':
     # rn = RandomNetwork()
     # A = rn.generate_random_network()
 
-    # for ii in range(10):
+    for ii in range(10):
 
-    # Generate Exponential Network
-    en = ExponentialNetwork()
-    A = en.generate_exponential_network(p=p, d=d, m=m, n=n, save=save, filename=filename, show=show)
+        # Generate Exponential Network
+        en = ExponentialNetwork()
+        A = en.generate_exponential_network(p=p, d=d, m=m, n=n, save=save, filename=filename, show=show)
 
-    # Generate Scale Free Network
-    # sf = ScaleFreeNetwork()
-    # A = sf.generate_scale_free_network()
+        # Generate Scale Free Network
+        # sf = ScaleFreeNetwork()
+        # A = sf.generate_scale_free_network()
 
-    A, cascade_list, result = multi_cascade(A, n_failure)
-    temp1 = {}
-    temp2 = {}
-    temp3 = len(cascade_list) - n_failure
+        A, cascade_list, result = multi_cascade(A, n_failure)
+        temp1 = {}
+        temp2 = {}
+        temp3 = len(cascade_list) - n_failure
 
-    for i in range(len(result)):
-        temp1[result[i][0]] = result[i][1]
+        for i in range(len(result)):
+            temp1[result[i][0]] = result[i][1]
 
-    for i in range(len(result)):
-        temp2[result[i][0]] = len(result[i][1])
+        for i in range(len(result)):
+            temp2[result[i][0]] = len(result[i][1])
 
-    result = {'List node failure': temp1,
-              'Number of node failure': temp2,
-              'Cascade failure': temp3,
-              'Total node failure': len(cascade_list),
-              'p': p,
-              'd': d,
-              'm': m,
-              'n': n,
-              'failure': n_failure
-              }
-    print(result)
+        result = {'List node failure': temp1,
+                  'Number of node failure': temp2,
+                  'Cascade failure': temp3,
+                  'Total node failure': len(cascade_list),
+                  'p': p,
+                  'd': d,
+                  'm': m,
+                  'n': n,
+                  'failure': n_failure
+                  }
+        print(result)
 
-    # if filename == '':
-    #     filename = 'network_p={}_d={}_m={}_n={}_f={}'.format(p, d, m, n, n_failure)
-    # filename = 'C1_D2_{}'.format(ii + 1)
-    # print(ii, filename)
-    with open('Saved/{}.json'.format(filename), 'w') as outfile:
-        json.dump(result, outfile)
+        if filename == '':
+            filename = 'network_p={}_d={}_m={}_n={}_f={}_c={}'.format(p, d, m, n, n_failure, c)
+        filename = 'C1_D2_{}'.format(ii + 1)
+        with open('Saved/{}.json'.format(filename), 'w') as outfile:
+            json.dump(result, outfile)
 
-    if show:
-        G = nx.DiGraph(A)
-        D = nx.convert_node_labels_to_integers(G, first_label=1)
-        for i in range(len(cascade_list)):
-            D.remove_node(cascade_list[i])
-        nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
-        plt.show()
+        # if show:
+        #     G = nx.DiGraph(A)
+        #     D = nx.convert_node_labels_to_integers(G, first_label=1)
+        #     for i in range(len(cascade_list)):
+        #         D.remove_node(cascade_list[i])
+        #     nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
+        #     plt.show()
