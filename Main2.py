@@ -82,12 +82,12 @@ if __name__ == '__main__':
 
     p = 1
     d = 2
-    m = 1
+    m = 5
     c = 1
-    n = 50
+    n = 5000
     save = False
     filename = ''
-    show = True
+    show = False
     n_failure = 1
 
     for text in sys.argv:
@@ -163,7 +163,7 @@ if __name__ == '__main__':
                   'n': n,
                   'failure': n_failure
                   }
-        print(result)
+        print(result['Cascade failure'])
 
         if filename == '':
             filename = 'network_p={}_d={}_m={}_n={}_f={}_c={}'.format(p, d, m, n, n_failure, c)
@@ -171,10 +171,10 @@ if __name__ == '__main__':
         with open('Saved/{}.json'.format(filename), 'w') as outfile:
             json.dump(result, outfile)
 
-        # if show:
-        #     G = nx.DiGraph(A)
-        #     D = nx.convert_node_labels_to_integers(G, first_label=1)
-        #     for i in range(len(cascade_list)):
-        #         D.remove_node(cascade_list[i])
-        #     nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
-        #     plt.show()
+        if show:
+            G = nx.DiGraph(A)
+            D = nx.convert_node_labels_to_integers(G, first_label=1)
+            for i in range(len(cascade_list)):
+                D.remove_node(cascade_list[i])
+            nx.draw(D, pos=nx.spring_layout(D), with_labels=True, nodelist=D.node)
+            plt.show()

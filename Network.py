@@ -175,7 +175,7 @@ class ExponentialNetwork(object):
         while m < n:
 
             for i in range(d):
-                temp_node = random.randint(0, m)
+                temp_node = random.randint(0, m-1)
                 if temp_node != m and not self.g.has_edge(temp_node, m):
                     self.g.add_edge(temp_node, m)
 
