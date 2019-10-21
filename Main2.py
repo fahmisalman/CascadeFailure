@@ -83,8 +83,8 @@ if __name__ == '__main__':
     p = 1
     d = 2
     m = 5
-    c = 1
-    n = 5000
+    c = 2
+    n = 10000
     save = False
     filename = ''
     show = False
