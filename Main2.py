@@ -84,7 +84,7 @@ if __name__ == '__main__':
     d = 2
     m = 5
     c = 2
-    n = 10000
+    n = 1000
     save = False
     filename = ''
     show = False
@@ -135,12 +135,12 @@ if __name__ == '__main__':
     for ii in range(10):
 
         # Generate Exponential Network
-        en = ExponentialNetwork()
-        A = en.generate_exponential_network(p=p, d=d, m=m, n=n, save=save, filename=filename, show=show)
+        # en = ExponentialNetwork()
+        # A = en.generate_exponential_network(p=p, d=d, m=m, n=n, save=save, filename=filename, show=show)
 
         # Generate Scale Free Network
-        # sf = ScaleFreeNetwork()
-        # A = sf.generate_scale_free_network()
+        sf = ScaleFreeNetwork()
+        A = sf.generate_scale_free_network(p=p, m=m, n=n)
 
         A, cascade_list, result = multi_cascade(A, n_failure)
         temp1 = {}

@@ -113,8 +113,8 @@ class ScaleFreeNetwork(object):
         nx.draw(self.D, pos=nx.spring_layout(self.D), with_labels=True, nodelist=self.D.node)
         plt.show()
 
-    def generate_scale_free_network(self, p=0.7, m=1, n=10, save=False, filename='', show=True):
-
+    def generate_scale_free_network(self, p=1, m=1, n=10, save=False, filename='', show=True):
+        
         self.G = nx.powerlaw_cluster_graph(n, m, p)
         self.A = nx.to_numpy_matrix(self.G)
         self.A = np.array(self.A)
